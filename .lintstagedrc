@@ -1,0 +1,4 @@
+{
+  "src/**/*.styl": "stylint -c node_modules/@myndmanagement/lint/.stylintrc",
+  "src/**/*.ts": "tslint -c tslint.json",
+}

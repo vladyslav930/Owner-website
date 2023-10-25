@@ -1,0 +1,372 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "owner2-website": {
+      "projectType": "application",
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "o",
+      "architect": {
+        "build": {
+          "builder": "@angular-builders/custom-webpack:browser",
+          "options": {
+            "customWebpackConfig": {
+              "path": "node_modules/@myndmanagement/scripts/webpack.config.js"
+            },
+            "baseHref": "/",
+            "outputPath": "dist",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.app.json",
+            "crossOrigin": "use-credentials",
+            "outputHashing": "all",
+            "preserveSymlinks": true,
+            "progress": false,
+            "allowedCommonJsDependencies": [
+              "@aws-crypto/sha256-browser",
+              "@aws-crypto/sha256-js",
+              "angular2-text-mask",
+              "aws-sdk/global",
+              "buffer",
+              "chart.js",
+              "chartjs-plugin-datalabels",
+              "crypto-js",
+              "date-fns",
+              "downloadjs",
+              "isomorphic-unfetch",
+              "js-cookie",
+              "qs",
+              "resize-sensor",
+              "url",
+              "uuid",
+              "plyr"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src"
+              ]
+            },
+            "assets": [
+              "src/assets",
+              {
+                "glob": "*",
+                "input": "node_modules/@myndmanagement/styles/assets/websites",
+                "output": "."
+              },
+              {
+                "glob": "**/*",
+                "ignore": [
+                  "inline-locale-files/**",
+                  "additional-locale/**"
+                ],
+                "input": "node_modules/ngx-extended-pdf-viewer/assets/",
+                "output": "assets"
+              }
+            ],
+            "styles": [
+              "src/styles.styl",
+              "node_modules/@myndmanagement/icon-font/font.css",
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/quill/dist/quill.core.css",
+              "node_modules/quill/dist/quill.snow.css",
+              "node_modules/@angular/cdk/overlay-prebuilt.css",
+              "node_modules/plyr/src/sass/plyr.scss",
+              "node_modules/@fontsource/inter/index.css"
+            ],
+            "scripts": [
+              "src/scripts/chartjs-rounded-bar-charts.js"
+            ],
+            "budgets": [
+              {
+                "type": "anyComponentStyle",
+                "maximumWarning": "12kb"
+              }
+            ],
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
+          },
+          "configurations": {
+            "prod": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "buildOptimizer": true,
+              "extractLicenses": true,
+              "optimization": true,
+              "sourceMap": false,
+              "namedChunks": false,
+              "assets": [
+                "src/assets",
+                {
+                  "glob": "*",
+                  "input": "node_modules/@myndmanagement/styles/assets/websites",
+                  "output": "."
+                },
+                {
+                  "glob": "**/*",
+                  "ignore": [
+                    "inline-locale-files/**",
+                    "additional-locale/**"
+                  ],
+                  "input": "node_modules/ngx-extended-pdf-viewer/assets/",
+                  "output": "assets"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/public/prod/",
+                  "output": "/"
+                }
+              ]
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.staging.ts"
+                }
+              ],
+              "buildOptimizer": true,
+              "optimization": true,
+              "sourceMap": false,
+              "namedChunks": false,
+              "assets": [
+                "src/assets",
+                {
+                  "glob": "*",
+                  "input": "node_modules/@myndmanagement/styles/assets/websites",
+                  "output": "."
+                },
+                {
+                  "glob": "**/*",
+                  "ignore": [
+                    "inline-locale-files/**",
+                    "additional-locale/**"
+                  ],
+                  "input": "node_modules/ngx-extended-pdf-viewer/assets/",
+                  "output": "assets"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/public/dev/",
+                  "output": "/"
+                }
+              ]
+            },
+            "dev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ],
+              "buildOptimizer": true,
+              "assets": [
+                "src/assets",
+                {
+                  "glob": "*",
+                  "input": "node_modules/@myndmanagement/styles/assets/websites",
+                  "output": "."
+                },
+                {
+                  "glob": "**/*",
+                  "ignore": [
+                    "inline-locale-files/**",
+                    "additional-locale/**"
+                  ],
+                  "input": "node_modules/ngx-extended-pdf-viewer/assets/",
+                  "output": "assets"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/public/dev/",
+                  "output": "/"
+                }
+              ]
+            },
+            "cordova-prod": {
+              "baseHref": ".",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.cordova-prod.ts"
+                }
+              ],
+              "index": {
+                "input": "src/index.cordova.html",
+                "output": "index.html"
+              },
+              "buildOptimizer": true,
+              "optimization": true,
+              "sourceMap": false,
+              "namedChunks": false,
+              "assets": [
+                "src/assets",
+                {
+                  "glob": "*",
+                  "input": "node_modules/@myndmanagement/styles/assets/websites",
+                  "output": "."
+                },
+                {
+                  "glob": "**/*",
+                  "ignore": [
+                    "inline-locale-files/**",
+                    "additional-locale/**"
+                  ],
+                  "input": "node_modules/ngx-extended-pdf-viewer/assets/",
+                  "output": "assets"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/public/prod/",
+                  "output": "/"
+                }
+              ]
+            },
+            "cordova-staging": {
+              "baseHref": ".",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.cordova-staging.ts"
+                }
+              ],
+              "index": {
+                "input": "src/index.cordova.html",
+                "output": "index.html"
+              },
+              "buildOptimizer": true,
+              "optimization": true,
+              "sourceMap": false,
+              "namedChunks": false,
+              "assets": [
+                "src/assets",
+                {
+                  "glob": "*",
+                  "input": "node_modules/@myndmanagement/styles/assets/websites",
+                  "output": "."
+                },
+                {
+                  "glob": "**/*",
+                  "ignore": [
+                    "inline-locale-files/**",
+                    "additional-locale/**"
+                  ],
+                  "input": "node_modules/ngx-extended-pdf-viewer/assets/",
+                  "output": "assets"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/public/dev/",
+                  "output": "/"
+                }
+              ]
+            },
+            "cordova-dev": {
+              "baseHref": ".",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.cordova-dev.ts"
+                }
+              ],
+              "index": {
+                "input": "src/index.cordova.html",
+                "output": "index.html"
+              },
+              "buildOptimizer": true,
+              "assets": [
+                "src/assets",
+                {
+                  "glob": "*",
+                  "input": "node_modules/@myndmanagement/styles/assets/websites",
+                  "output": "."
+                },
+                {
+                  "glob": "**/*",
+                  "ignore": [
+                    "inline-locale-files/**",
+                    "additional-locale/**"
+                  ],
+                  "input": "node_modules/ngx-extended-pdf-viewer/assets/",
+                  "output": "assets"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/public/dev/",
+                  "output": "/"
+                }
+              ]
+            },
+            "local": {
+              "progress": true,
+              "outputHashing": "none"
+            }
+          },
+          "defaultConfiguration": "prod"
+        },
+        "serve": {
+          "builder": "@angular-builders/custom-webpack:dev-server",
+          "options": {
+            "browserTarget": "owner2-website:build:local"
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "owner2-website:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-builders/jest:run",
+          "options": {
+            "configPath": "./jest/jest.config.js",
+            "tsConfig": "tsconfig.spec.json",
+            "no-cache": true,
+            "styles": [
+              "src/styles.styl"
+            ],
+            "scripts": [],
+            "assets": [
+              "src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "tsconfig.app.json",
+              "tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "prefix": "o",
+      "style": "styl",
+      "changeDetection": "OnPush"
+    },
+    "@schematics/angular:directive": {
+      "prefix": "o"
+    }
+  },
+  "cli": {
+    "analytics": false
+  },
+  "defaultProject": "owner2-website"
+}

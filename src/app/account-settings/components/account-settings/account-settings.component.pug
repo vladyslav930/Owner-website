@@ -1,0 +1,15 @@
+.content-container
+  .header-container
+    .header Account Settings
+      .action-buttons([attr.id]="accountSettingsHeaderPortalSlotId")
+
+  .side-menu
+    o-side-menu([alternateRowColor]="false")
+      .side-menu-item(
+        *ngFor="let item of sideMenuItems$ | async; trackBy: trackByRouterLink",
+        routerLinkActive="active",
+        [routerLink]="item.routerLink",
+      ) {{ item.label }}
+
+  .route-content-container
+    router-outlet
