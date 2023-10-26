@@ -1,0 +1,39 @@
+.line-row
+  .label {{ label }}
+  .control-container.editable([class.editing]="editing")
+    .value.row(*ngIf="!editing")
+      ng-content(select=".value-label")
+    .column(*ngIf="editing")
+      .row.form-container
+        ng-content(select=".form")
+
+        .row(*ngIf="ngForm")
+          m-button(
+            *ngIf="editing",
+            icon="check-md",
+            color="green",
+            [small]="true",
+            [loading]="loading",
+            [hasMinWidth]="false",
+            (click)="ngForm.onSubmit($event)"
+          ) Save
+          m-button(
+            *ngIf="editing",
+            icon="cancel-md",
+            color="white",
+            [small]="true",
+            [hasMinWidth]="false",
+            [isDisabled]="loading",
+            (click)="cancelEdit.emit()"
+          ) Cancel
+
+      ng-content(*ngIf="editing && (ngForm?.submitted || formSubmitted) && (ngForm?.invalid || formControl?.invalid)", select=".errors-container")
+
+    m-button(
+      *ngIf="ngForm && !editing",
+      icon="pencil",
+      color="white",
+      [small]="true",
+      [hasMinWidth]="false",
+      (click)="edit.emit()"
+    ) {{ editLabel }}

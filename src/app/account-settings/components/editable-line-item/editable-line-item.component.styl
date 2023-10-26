@@ -1,0 +1,64 @@
+@import '~@myndmanagement/styles/styles/variables'
+@import 'styles/variables'
+@import 'styles/blocks'
+@import 'styles/components/input-text-small'
+
+$row-height = 36px
+
+:host
+  display: block
+
+.label
+  font-family: $font-open-sans
+  font-size: 14px
+  line-height: 19px
+  color: $color-mynd-navy-50
+  min-width: 110px
+  margin-top: 9px
+
+.line-row
+  display: flex
+  min-height: $row-height
+
+.control-container
+  display: flex
+  align-items: flex-start
+  margin-left: 30px
+
+  &:not(.editing)
+    align-items: center
+
+  &.editable
+    .value
+      min-width: 100px
+
+    ::ng-deep
+      .errors-container
+        m-v2-form-error
+          margin-top: 14px
+
+  .value
+    font-family: $font-open-sans
+    font-weight: 600
+    font-size: 14px
+    line-height: 19px
+    color: $color-mynd-navy-75
+
+  m-button
+    margin-left: 8px
+
+    &:first-of-type
+      margin-left: 16px
+
+  .form-container
+    align-items: center
+
+    ::ng-deep
+      display: flex
+      align-items: center
+
+      m-v2-form-field
+        &:not(:last-of-type)
+          margin-right: 16px
+
+        {$o-form-field-small}

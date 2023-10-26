@@ -1,0 +1,82 @@
+o-widget-wrapper(widgetTitle="LEGAL ENTITIES", *mLet="propertiesGroupedByEntityId$ | async as propertiesGroupedByEntityId")
+  .content-container
+    .loader(*ngIf="isLoadingEntities$ | async; else loaded")
+      m-throbber
+
+    ng-template(#loaded)
+      ng-container(*ngIf="entities$ | async as entities")
+        .empty-message(*ngIf="!entities.length; else hasData") You don't have any entity associated with your account yet.
+        ng-template(#hasData)
+          ng-container(*ngIf="updateEntities$ | async as updateEntities")
+            form.entity-line-item(
+              *ngFor="let entity of entities; let i=index; trackBy: trackById",
+              #formElement="ngForm",
+              [formGroup]="entitiesForm[i]",
+              (ngSubmit)="save(entity, entitiesForm[i])"
+            )
+              ng-container(*mLet="updateEntities[entity.entityId] as editingState")
+                .line-item-header
+                  .text-container
+                    .title {{ entity.businessLegalName }} &nbsp;
+                    .description(*ngIf="propertiesGroupedByEntityId[entity.entityId]?.length != null && !editingState?.editing") ({{ propertiesGroupedByEntityId[entity.entityId].length }} properties)
+
+                  .actions
+                    m-button(
+                      *ngIf="editingState?.editing",
+                      type="submit",
+                      icon="check-md",
+                      color="green",
+                      [small]="true",
+                      [hasMinWidth]="false",
+                    ) Save
+                    m-button(
+                      *ngIf="editingState?.editing",
+                      icon="cancel-md",
+                      color="white",
+                      [small]="true",
+                      [hasMinWidth]="false",
+                      (click)="cancelEdit(entity, formElement)"
+                    ) Cancel
+                    m-button(
+                      *ngIf="!editingState?.editing && (entity.entityId | hasPermission:EntityRolePermission.EditEntity | async)",
+                      icon="pencil",
+                      color="white",
+                      [small]="true",
+                      [hasMinWidth]="false",
+                      (click)="edit(entity.entityId)"
+                    ) Edit
+
+                o-editable-line-item(
+                  label="Account Number:",
+                  [editing]="editingState?.editing",
+                  [formSubmitted]="formElement.submitted",
+                )
+                  .value-label {{ entity.maskedAccountNumber | withDefault }}
+
+                  m-v2-form-field.form
+                    input(mV2Input, formControlName="accountNumber")
+
+                  .errors-container
+                    m-v2-form-error(*ngIf="entitiesForm[i].controls.accountNumber.invalid") Bank account number must be between 4 and 17 digits
+
+                o-editable-line-item(
+                  label="Routing Number:",
+                  [editing]="editingState?.editing",
+                  [formSubmitted]="formElement.submitted",
+                )
+                  .value-label {{ entity.routingNumber | withDefault }}
+
+                  m-v2-form-field.form
+                    input(mV2Input, formControlName="routingNumber")
+
+                  .errors-container
+                    m-v2-form-error(*ngIf="entitiesForm[i].controls.routingNumber.invalid") Routing number must contain 9 digits only
+
+                o-editable-line-item(
+                  *ngIf="propertiesGroupedByEntityId[entity.entityId]?.length",
+                  [label]="'Properties (' + propertiesGroupedByEntityId[entity.entityId]?.length + '):'",
+                )
+                  .value-label.properties
+                    ng-container(*ngFor="let property of propertiesGroupedByEntityId[entity.entityId]; let last=last; trackBy: trackById")
+                      a.property-link([routerLink]="['/properties/dashboard', property.propertyId]") {{ property.address }}
+                      span(*ngIf="!last") , &nbsp;
