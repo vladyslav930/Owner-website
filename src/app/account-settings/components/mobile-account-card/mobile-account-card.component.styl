@@ -1,0 +1,62 @@
+@import '~@myndmanagement/styles/styles/variables'
+@import 'styles/variables'
+@import 'styles/mobile'
+
+:host
+  position: relative
+  padding: 1.6rem
+  display: block
+  color: $color-mynd-navy
+  font: 1.4rem/2rem $font-family-inter
+
+  {$mobile-card}
+
+  ::ng-deep
+    .account-card-title
+      padding-bottom: 0.6rem
+      font-weight: 600
+
+      &.bordered
+        padding-bottom: 1.8rem
+        border-bottom: 1px solid $color-mynd-navy-5
+
+    .account-card-row
+      display: flex
+      justify-content: space-between
+      padding: 1.2rem 0
+      border-bottom: 1px solid $color-mynd-navy-5
+
+    .account-card-row-label
+      margin-right: 5px
+      color: $color-mynd-navy-75
+
+    .account-card-row-value
+      font-weight: 600
+      text-truncate()
+
+    .account-card-group
+      margin-top: 1.2rem
+
+    .account-card-group-heading
+        color: $color-mynd-navy-75
+
+      .account-card-group-list
+        margin: 0.6rem 0 0 0
+        padding: 0
+        color: $color-mynd-navy-40
+        list-style: none
+
+      .account-card-group-list-item
+        display: flex
+        justify-content: space-between
+
+      a
+        color: inherit
+
+    .account-card-actions
+      margin-top: 1.2rem
+
+  .account-card-actions
+    .account-card-action-button
+      display: block
+      margin-top: 1.2rem

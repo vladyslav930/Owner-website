@@ -1,0 +1,28 @@
+ng-container(*ngIf="isLoadingOwners$ | async; else loadedOwners")
+  m-skeleton
+
+ng-template(#loadedOwners)
+  ng-container(*mLet="owners$ | async as owners")
+    ng-container(*ngIf="owners.length; else emptyLabel")
+      ng-container(*ngIf="entitiesMap$ | async as entitiesMap")
+        o-mobile-account-card(*ngFor="let owner of owners; trackBy: trackByOwnerId")
+          .account-card-title.bordered {{ (owner | mFullName) || owner.email }}
+            span.status([ngClass]="getOwnerStatus(owner.status)") {{ owner.status | mMapValue:humanOwnerStatus }}
+
+          .account-card-group
+            .account-card-group-heading Entities ({{ owner.roles.length || 0 }})
+            ul.account-card-group-list
+              li.account-card-group-list-item(*ngFor="let entityRole of owner.roles")
+                span {{ entitiesMap[entityRole.entityId]?.businessLegalName }}
+                span {{ entityRole.role | mMapValue:humanEntityRole }}
+
+          .account-card-actions
+            m-button.account-card-action-button.edit-user-btn(
+              *ngIf="owner | canDeleteOwner | async",
+              [fullWidth]="true",
+              [hasMinWidth]="false",
+              (click)="deleteOwner(owner)",
+            ) Remove user
+
+ng-template(#emptyLabel)
+  p.empty-label No users

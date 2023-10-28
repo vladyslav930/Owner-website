@@ -1,0 +1,27 @@
+
+ng-container(*ngIf="isLoadingEntities$ | async; else loadedEntites")
+  m-skeleton
+
+ng-template(#loadedEntites)
+  ng-container(*mLet="propertiesGroupedByEntityId$ | async as propertiesGroupedByEntityId")
+    ng-container(*mLet="entities$ | async as entities")
+      ng-container(*ngIf="entities.length; else emptyLabel")
+        o-mobile-account-card(*ngFor="let entity of entities; trackBy: trackById")
+          .account-card-title {{ entity.businessLegalName }}
+
+          .account-card-row
+            .account-card-row-label Account Number
+            .account-card-row-value {{ entity.maskedAccountNumber | withDefault }}
+
+          .account-card-row
+            .account-card-row-label Rounting number
+            .account-card-row-value {{ entity.routingNumber ? (entity.routingNumber | dashedNumber) : ('' | withDefault) }}
+
+          .account-card-group(*mLet="propertiesGroupedByEntityId[entity.entityId] as properties")
+            .account-card-group-heading Properties ({{ properties?.length || 0 }})
+            ul.account-card-group-list
+              li.account-card-group-list-item(*ngFor="let property of properties; trackBy: trackById")
+                a([routerLink]="['/properties/dashboard', property.propertyId]") {{ property.address }}
+
+ng-template(#emptyLabel)
+  p.empty-label No entities

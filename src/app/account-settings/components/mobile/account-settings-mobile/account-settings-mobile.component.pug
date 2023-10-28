@@ -1,0 +1,13 @@
+o-mobile-card
+  .header My Account
+
+  o-mobile-card-row(
+    *ngFor="let item of accountSettingsLinks",
+    [routerLink]="item.link"
+  )
+    .card-row-title.normal-text-weight
+      .title-label {{item.label}}
+      .title-hint {{item.hint}}
+
+    .card-row-text
+      i.icon-caret-right.nav-icon

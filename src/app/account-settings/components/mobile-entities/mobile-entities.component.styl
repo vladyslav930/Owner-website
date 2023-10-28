@@ -1,0 +1,59 @@
+@import '~@myndmanagement/styles/styles/variables'
+@import 'styles/variables'
+@import 'styles/text'
+@import 'styles/mobile'
+
+:host
+  padding: 1.6rem
+  font: 1.4rem/2rem $font-family-inter
+  color: $color-mynd-navy
+  {$mobile-host}
+
+o-mobile-account-card:not(:last-child)
+  margin-bottom: 1.2rem
+
+.entity-card
+  padding: 1.6rem
+  border-radius: 0.8rem
+  background: $color-mynd-white
+
+  &:not(:last-child)
+    margin-bottom: 1.2rem
+
+  .entity-card-title
+    margin-bottom: 0.6rem
+    font-weight: 600
+
+  .entity-card-row
+    display: flex
+    justify-content: space-between
+    padding: 1.2rem 0
+    border-bottom: 1px solid $color-mynd-navy-5
+
+  .entity-card-row-label
+    margin-right: 5px
+    color: $color-mynd-navy-75
+
+  .entity-card-row-value
+    font-weight: 600
+    text-truncate()
+
+  .entity-card-properties
+    margin-top: 1.2rem
+
+    .entity-card-properties-heading
+      color: $color-mynd-navy-75
+
+    .entity-card-properties-list
+      margin: 0.6rem 0 0 0
+      padding: 0
+      list-style: none
+
+      a
+        color: $color-mynd-navy-40
+
+m-skeleton
+  height: 100%
+
+.empty-label
+  text-align: center

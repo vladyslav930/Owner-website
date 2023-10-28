@@ -1,0 +1,54 @@
+@import '~@myndmanagement/styles/styles/variables'
+@import 'styles/variables'
+@import 'styles/mobile'
+
+:host
+  padding: 1.6rem
+  {$mobile-host}
+
+.account-card-group-list-item:not(:first-child)
+  margin-top: .6rem
+
+o-mobile-account-card:not(:last-child)
+  margin-bottom: 1.2rem
+
+.empty-label
+  text-align: center
+
+.roles
+  display: flex
+  flex-direction: column
+  align-items: flex-end
+
+.status
+  position: absolute
+  right: 1.6rem
+  top: 1.6rem
+  padding: .4rem
+  border-radius: .2rem
+  font: 700 1rem/.7rem $font-family-inter
+  text-transform: uppercase
+  color: $color-mynd-white
+
+  &.active
+    background-color: $color-mynd-green-saturated
+
+  &.pending
+    background-color: $color-mynd-blue
+
+  &.disabled, &.undefined-user-status
+    background-color: $color-mynd-neutral
+
+.edit-user-btn
+  ::ng-deep
+    button.button
+      height: auto
+      padding: .8rem 0
+      border-radius: .4rem
+      color: $color-mynd-navy-75
+      background-color: $color-mynd-navy-2
+      font: 600 1.4rem/2rem $font-family-inter
+      text-transform: none
+
+m-skeleton
+  height: 100%
