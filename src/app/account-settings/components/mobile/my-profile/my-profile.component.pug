@@ -1,0 +1,27 @@
+o-mobile-card
+  .header My profile
+
+  ng-container(*ngIf="user$ | async as user")
+    o-mobile-card-row
+      .card-row-title Name
+      .card-row-text.semi-bold-text-weight {{ user | mFullName }}
+
+    o-mobile-card-row(routerLink="./update-email")
+      .card-row-title.normal-text-weight Email address
+      .card-row-text.row.center.semi-bold-text-weight.email
+        .value {{ user.email }}
+        i.icon-caret-right.nav-icon
+
+    o-mobile-card-row(
+      *ngIf="owner$ | async as owner",
+      routerLink="./update-phone-number",
+    )
+      .card-row-title Mobile number
+      .card-row-text.row.center.semi-bold-text-weight.phone
+        .value {{ owner.phone | oPhoneNumber | withDefault }}
+        i.icon.icon-caret-right.nav-icon
+
+    o-mobile-card-row(routerLink="./update-password")
+      .card-row-title Password
+      .card-row-text.row.center
+        i.icon.icon-caret-right.nav-icon

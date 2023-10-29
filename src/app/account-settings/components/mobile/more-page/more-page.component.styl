@@ -1,0 +1,70 @@
+@import '~@myndmanagement/styles/styles/variables'
+@import 'styles/mobile'
+@import 'styles/variables'
+
+:host
+  {$mobile-host}
+  padding: 1.6rem
+
+  > *:not(:last-child)
+    margin-bottom: 2.4rem
+
+.log-out
+  margin-bottom: .8rem
+  padding: .8rem 0
+  display: flex
+  justify-content: center
+  align-items: center
+  border-radius: .4rem
+  background-color: $color-mynd-red
+  color: $color-mynd-white
+  font: 600 1.4rem/2rem $font-family-inter
+
+.icon-move-out-left
+  font-size: 2rem
+  margin-right: 1.1rem
+
+o-property-manager-card.more-page-pm-card
+  font-family: $font-family-inter
+  font-style: normal
+
+  ::ng-deep
+    .property-manager-container
+        box-shadow: none
+        border-radius: 8px
+
+    .property-manager-container, o-contact-us
+      height: 6rem
+
+    o-user-card
+      height: 2.8rem
+
+      .job-title.job-title.job-title
+        font-weight: normal
+        font-size: 1.2rem
+        line-height: 1.5rem
+        text-transform: none
+        color: $color-mynd-navy-75
+
+      .name.name.name
+        margin-top: 0.5rem
+        font-weight: 600
+        font-size: 16px
+        line-height: 19px
+        color: $color-blue-91
+
+    .trigger-container
+      box-shadow: none
+      border-radius: 8px
+      padding: 0.9rem 1.2rem
+
+      .trigger
+        width: 4.2rem
+        height: 4.2rem
+        border-width: 0.3rem
+
+      .icon-phone-landline-sm
+        background-color: $color-blue-50
+        color: $color-mynd-white
+        font-size: 1.856rem
+
