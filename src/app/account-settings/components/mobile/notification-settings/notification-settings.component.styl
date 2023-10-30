@@ -1,0 +1,57 @@
+@import 'styles/mobile'
+@import 'styles/text'
+
+$switch-inactive-circle = #C4CACE
+$switch-inactive-background = #E1E4E6
+
+:host
+  {$mobile-host}
+  padding: 1.6rem
+
+  > *:not(:last-child)
+    margin-bottom: 2.4rem
+
+  .card-row-title
+    overflow: auto
+
+    .title-hint
+      text-truncate()
+
+  .card-row-text
+    flex: none
+    width: 4.2rem
+    height: 2.4rem
+
+    m-form-switch
+      width: 4.2rem
+      height: 2.4rem
+      margin: 0
+
+      &.disabled
+        opacity: .4
+        pointer-events: none
+
+      ::ng-deep
+        label.switch-wrapper.switch-wrapper.switch-wrapper
+          .switch
+            width: 4.2rem
+            height: 2.4rem
+
+            input
+              &:checked
+                + .slider
+                  background-color: $color-mynd-green
+
+                  &:before
+                    background-color: $color-mynd-white
+                    transform: translate(17px, -50%)
+
+              + .slider
+                background-color: $switch-inactive-background
+
+                &:before
+                  width: 18px
+                  height: 18px
+                  top: 50%
+                  transform: translateY(-50%)
+                  background-color: $switch-inactive-circle

@@ -1,0 +1,51 @@
+ng-container(*mLet="isUpdatingUserSettings$ | async as isUpdatingUserSettings")
+  m-throbber.absoluteCenter(*ngIf="isFetching$ | async; else loaded")
+
+  ng-template(#loaded)
+    ng-container(
+      *ngIf="user$ | async as user",
+      [formGroup]="form"
+    )
+      o-mobile-card(*ngIf="owner$ | async as owner")
+        .header Global notifications
+        o-mobile-card-row
+          .card-row-title
+            .title-label Entities
+            .title-hint {{ user.email }}
+          .card-row-text
+            m-form-switch.mobile-inline(
+              *mLet="form.get('emailEnabled').value || isUpdatingUserSettings as disabled",
+              [class.disabled]="disabled",
+              formControlName="emailEnabled",
+              [disabled]="disabled"
+            )
+
+        ng-container(*ngIf="featureFlag.SmsNotificationsEnabled | isFeatureFlagOn | async")
+          o-mobile-card-row(
+            *ngIf="owner.phone",
+            [attr.data-heap]="form.value.smsEnabled ? 'checked' : 'unchecked'"
+          )
+            .card-row-title
+              .title-label Text Message
+              .title-hint {{ owner.phone | mPhoneNumber }}
+            .card-row-text
+              m-form-switch(formControlName="smsEnabled", [disabled]="isUpdatingUserSettings")
+
+      ng-container(*ngIf="form.get('emailEnabled').value")
+        ng-container(
+          *ngFor="let notificationPreference of notificationPreferences; let first=first",
+          [formGroup]="form.get('notificationPreferences')",
+        )
+          o-mobile-card
+            .header {{ notificationPreference.label }}
+            o-mobile-card-row(
+              *ngFor="let notificationType of notificationPreference.notificationTypes"
+            )
+              .card-row-title {{ notificationType.value }}
+              .card-row-text
+                m-form-switch(
+                  *mLet="(isUpdatingNotificationPreferences$ | async) || getIsBlockedType(notificationType.key) as disabled",
+                  [class.disabled]="disabled",
+                  [formControlName]="notificationType.key",
+                  [disabled]="disabled"
+                )

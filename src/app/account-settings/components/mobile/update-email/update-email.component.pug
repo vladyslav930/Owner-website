@@ -1,0 +1,44 @@
+form.form(
+  [formGroup]="updateEmailService.emailForm",
+  (ngSubmit)="updateEmailService.saveEmail()",
+)
+  .form-info(*mLet="updateEmailService.user$ | async as user") Your current email address is
+    b  {{ user.email }}
+    | . What would you like to update it to?
+
+  m-v2-form-field
+    input(
+      mV2Input,
+      type="email",
+      formControlName="newEmail",
+      placeholder="Your email address"
+    )
+
+  m-v2-form-field
+    input(
+      mV2Input,
+      type="email",
+      formControlName="repeatedEmailControl",
+      placeholder="Re-enter email address"
+    )
+
+  m-v2-form-error.form-error(*ngIf="updateEmailService.emailForm.dirty && updateEmailService.emailForm.invalid")
+    ng-container(*ngIf="updateEmailService.invalidEmail; else notMatch") Invalid email
+    ng-template(#notMatch)
+      ng-container(*ngIf="updateEmailService.emailForm.errors?.noMatch") Email doesn't match
+
+.actions.column(*mLet="updateEmailService.isUpdateEmail$ | async as updating")
+  m-button.save(
+    [isDisabled]="updateEmailService.emailForm.invalid",
+    [loading]="updating",
+    [hasMinWidth]="false",
+    [fullWidth]="true",
+    (click)="updateEmailService.saveEmail()",
+    color="green",
+  ) Save
+  m-button.cancel(
+    [isDisabled]="updating",
+    [fullWidth]="true",
+    [hasMinWidth]="false",
+    routerLink="../"
+  ) Cancel

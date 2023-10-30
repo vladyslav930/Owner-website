@@ -1,0 +1,37 @@
+form.form(
+  [formGroup]="updatePhoneNumberService.phoneForm",
+  (ngSubmit)="updatePhoneNumberService.savePhone()"
+)
+  .form-info(*mLet="owner$ | async as owner") Your current phone number is
+    b  {{ owner.phone ? ('+1' + (owner.phone | mPhoneNumber)) : 'missing' }}
+    | . What would you like to update it to?
+
+  m-v2-form-field
+    m-v2-form-label.field-label
+      span Mobile number
+    input(
+      mV2Input,
+      placeholder="Your phone number",
+      formControlName="phone",
+      type="phone",
+      mask="(000) 000-0000",
+      prefix="+1",
+      [showMaskTyped]="true",
+    )
+
+  m-v2-form-error.form-error(*ngIf="updatePhoneNumberService.phoneForm.dirty && updatePhoneNumberService.phoneForm.invalid") Please input valid phone number
+
+.actions.column(*mLet="updatePhoneNumberService.isUpdatePhone$ | async as isUpdating")
+  m-button.save(
+    [small]="true",
+    [fullWidth]="true",
+    [loading]="isUpdating",
+    [isDisabled]="updatePhoneNumberService.phoneForm.invalid",
+    (click)="updatePhoneNumberService.savePhone()"
+  ) Save
+  m-button.cancel(
+    [small]="true",
+    [fullWidth]="true",
+    [isDisabled]="isUpdating",
+    routerLink="../"
+  ) Cancel
