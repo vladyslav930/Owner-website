@@ -1,0 +1,93 @@
+@import '~@myndmanagement/styles/styles/variables'
+@import 'styles/variables'
+@import 'styles/blocks'
+
+:host
+  display: block
+  max-width: 687px
+
+::ng-deep
+  .o-new-user-overlay-pane
+    &.m-modal-dialog-cdk-overlay-pane.m-modal-dialog-cdk-overlay-pane
+      width: auto
+
+    .m-modal-dialog-container
+      overflow: visible
+
+o-modal-wrapper
+  ::ng-deep
+  .o-modal-content
+    overflow: initial
+
+form
+  display: flex
+  flex-direction: column
+  max-width: 100%
+  padding: 16px 20px 0 20px
+  {$container-shadow}
+
+  &:not(.submitted)
+    m-v2-form-error
+      display: none
+
+    m-v2-select ::ng-deep .value-wrapper
+    m-v2-form-field ::ng-deep .wrapper
+      border-color: $color-mynd-navy-15 !important
+
+      input, .value, .icon.icon
+        color: $color-mynd-navy-50 !important
+
+  label
+    display: flex
+    align-items: center
+
+    font-family: $font-open-sans
+    font-size: 14px
+    line-height: 19px
+    margin-bottom: 24px
+    color: $color-mynd-navy-50
+
+    .label
+      min-width: 120px
+      align-self: flex-start
+      margin-top: 9px
+
+    .control
+      width: 100%
+
+      m-v2-form-error
+        margin-top: 5px
+
+      m-v2-select, m-v2-form-field
+        margin-bottom: 0
+        max-width: 100%
+
+.o-modal-footer
+  display: flex
+  justify-content: flex-end
+
+  .info
+    font-family: $font-open-sans
+    font-size: 14px
+    line-height: 19px
+    margin-left: 20px
+    color: $color-mynd-navy-40
+
+  .actions
+    display: flex
+    align-items: center
+    white-space: nowrap
+
+    button + button
+      margin-left: 15px
+
+    button
+      height: 37px
+      min-height: 37px
+
+      &.cancel
+        min-width: 99px
+        margin-left: 45px
+
+      &.invite
+        min-width: 123px

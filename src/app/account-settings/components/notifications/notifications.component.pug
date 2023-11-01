@@ -1,0 +1,61 @@
+.notifications(*mLet="isUpdatingUserSettings$ | async as isUpdatingUserSettings")
+  m-throbber.absoluteCenter(*ngIf="isFetching$ | async; else loaded")
+
+  ng-template(#loaded)
+    ng-container(*ngIf="user$ | async as user", [formGroup]="form")
+      o-widget-wrapper.grid(
+        widgetTitle="GLOBAL NOTIFICATIONS",
+        titleHint="(Required)",
+        tooltipContent="For receiving communications with your property manager and your monthly distribution report"
+      )
+        .grid-content
+          .rows(*ngIf="owner$ | async as owner")
+            .row([attr.data-heap]="form.value.emailEnabled ? 'checked' : 'unchecked'")
+              div
+                span.row-label-text Email
+                span.row-label-note &nbsp; - &nbsp;{{ user.email }}
+              .row-value
+                m-form-switch(
+                  *mLet="form.get('emailEnabled').value || isUpdatingUserSettings as disabled",
+                  [class.disabled]="disabled",
+                  formControlName="emailEnabled",
+                  [disabled]="disabled"
+                )
+
+            ng-container(*ngIf="featureFlag.SmsNotificationsEnabled | isFeatureFlagOn | async")
+              .row(
+                *ngIf="owner.phone",
+                [attr.data-heap]="form.value.smsEnabled ? 'checked' : 'unchecked'"
+              )
+                div
+                  span.row-label-text Text Message
+                  span.row-label-note &nbsp; - &nbsp;{{ owner.phone | mPhoneNumber }}
+                .row-value
+                  m-form-switch(formControlName="smsEnabled", [disabled]="isUpdatingUserSettings")
+
+      ng-container(*ngIf="form.get('emailEnabled').value")
+        o-widget-wrapper.grid(
+          *ngFor="let notificationPreference of notificationPreferences; let first=first",
+          [widgetTitle]="notificationPreference.label",
+          [formGroup]="form.get('notificationPreferences')",
+          [attr.data-test]="notificationPreference.key"
+        )
+          .grid-content([attr.data-test]="notificationPreference.key")
+            .header(*ngIf="first")
+              .row
+                .header-label EVENT
+                .header-label ENABLED
+            .rows
+              .row(
+                *ngFor="let notificationType of notificationPreference.notificationTypes",
+                [attr.data-heap]="form.value.notificationPreferences[notificationType.key] ? 'checked' : 'unchecked'",
+                [attr.data-test]="notificationType.key",
+              )
+                .row-label-text {{ notificationType.value }}
+                .row-value
+                  m-form-switch(
+                    *mLet="(isUpdatingNotificationPreferences$ | async) || getIsBlockedType(notificationType.key) as disabled",
+                    [class.disabled]="disabled",
+                    [formControlName]="notificationType.key",
+                    [disabled]="disabled"
+                  )

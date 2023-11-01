@@ -1,0 +1,58 @@
+o-modal-wrapper
+  .o-modal-header
+    | NEW USER
+    .m-modal-dialog-close.icon-cancel(mModalDialogClose)
+  .o-modal-content
+    form.overlay-form([formGroup]="form", #formElement="ngForm", [class.submitted]="formElement.submitted")
+      label
+        .label Email Address:
+        .control
+          m-v2-form-field.o-form-field-small
+            input(
+              mV2Input,
+              type="email",
+              formControlName="email",
+            )
+
+          m-v2-form-error(*ngIf="form.controls.email.invalid") Please enter valid email
+
+      label
+        .label Entity:
+        .control
+          m-v2-select.o-select-small(formControlName="entityIds", [multiple]="true")
+            m-v2-option(
+              *ngFor="let entity of entities$ | async; trackBy: trackByEntity",
+              [value]="entity.entityId",
+            ) {{ entity.businessLegalName }}
+
+          m-v2-form-error(*ngIf="form.controls.entityIds.invalid") Please select entity
+
+      label
+        .label Permissions:
+        .control
+          m-v2-select.o-select-small(formControlName="role")
+            m-v2-option(
+              *ngFor="let option of selectableEntityRoles",
+              [value]="option.key"
+            ) {{ option.value }}
+
+          m-v2-form-error(*ngIf="form.controls.role.invalid") Please select permissions
+
+  .o-modal-footer
+    .info User will recieve an email invitation with instructions to activate their account
+
+    .actions
+      button.o-button-small.cancel(
+        mV2Button,
+        mModalDialogClose,
+        color="neutral",
+        [small]="true",
+      ) Cancel
+      button.o-button-small.invite(
+        mV2Button,
+        type="submit",
+        color="tertiary",
+        [loading]="inviteInProgress$ | async",
+        [small]="true",
+        (click)="inviteUser()",
+      ) Invite User

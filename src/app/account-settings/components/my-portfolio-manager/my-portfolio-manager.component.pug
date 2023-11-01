@@ -1,0 +1,33 @@
+o-widget-wrapper(
+  *mLet="ormContact$ | async as ormContact",
+  [widgetTitle]="ormContact && (ormContact | mFullName)"
+)
+  m-button(
+    header-right,
+    routerLink="/messages/new",
+    [small]="true",
+    [hasMinWidth]="false",
+    icon="envelope-md",
+    textColor="grey",
+    color="white",
+  ) Send Message
+
+  .row(*ngIf="!ormContact || ormContact.introVideoLink")
+    m-skeleton(*ngIf="!ormContact || !videoReady", [height]="311")
+
+    .video-wrapper(
+      *ngIf="ormContact",
+      [class.hidden]="!videoReady",
+      [class.scale]="scaleVideo",
+    )
+      .video-container(*ngIf="youtubeIframeUrl$ | async as youtubeIframeUrl")
+        iframe(
+          allowfullscreen,
+          allowtransparency,
+          type="text/html",
+          frameborder="0",
+          [src]="youtubeIframeUrl | mSafe:MyndSafeType.ResourceUrl"
+        )
+
+  .row(*ngIf="ormContact?.bio")
+    pre.bio {{ ormContact.bio }}
