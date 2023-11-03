@@ -1,0 +1,33 @@
+@import '~@myndmanagement/styles/styles/variables'
+@import '~@myndmanagement/styles/styles/color-palette'
+@import 'styles/variables'
+@import 'styles/blocks'
+
+m-throbber
+  display: block
+  margin: 30px 0
+
+m-v2-button
+  ::ng-deep
+    .icon.icon
+      font-size: 17px
+
+m-table
+  {$table}
+
+  m-table-column
+    &.external-theme
+      font-family: $font-family-open-sans
+      font-size: 14px
+      line-height: 19px
+
+      m-button
+        ::ng-deep
+          button.button
+            &, &:focus
+              border: none
+              box-shadow: none
+
+      .entity, .role
+        &:not(:first-of-type)
+          margin-top: 12px

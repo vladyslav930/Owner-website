@@ -1,0 +1,88 @@
+o-widget-wrapper(widgetTitle="PERSONAL INFORMATION")
+  .content-container(*ngIf="user$ | async as user")
+    o-editable-line-item(label="Name:")
+      .value-label {{ user | mFullName }}
+
+    o-editable-line-item(
+      label="Email Address:",
+      [editing]="isEditingEmail$ | async",
+      [loading]="updateEmailService.isUpdateEmail$ | async",
+      (cancelEdit)="cancelEditEmail()",
+      (edit)="editEmail()",
+    )
+      .value-label {{ user.email }}
+
+      form.form(
+        [formGroup]="updateEmailService.emailForm",
+        (ngSubmit)="updateEmailService.saveEmail()",
+      )
+        m-v2-form-field
+          input(
+            mV2Input,
+            type="email",
+            formControlName="newEmail",
+          )
+
+    o-editable-line-item(
+      *ngIf="owner$ | async as owner",
+      label="Mobile Number:",
+      [editing]="isEditingPhoneNumber$ | async",
+      [loading]="updatePhoneNumberService.isUpdatePhone$ | async",
+      (cancelEdit)="cancelEditPhone()",
+      (edit)="editPhone()",
+    )
+      .value-label {{ owner.phone | mPhoneNumber | withDefault }}
+
+      form.form(
+        [formGroup]="updatePhoneNumberService.phoneForm",
+        (ngSubmit)="updatePhoneNumberService.savePhone()"
+      )
+        m-v2-form-field
+          input(
+            mV2Input,
+            type="phone",
+            formControlName="phone",
+            mask="(000) 000-0000",
+            prefix="+1 ",
+            [showMaskTyped]="true",
+          )
+
+      .errors-container(*ngIf="updatePhoneNumberService.phoneForm.invalid")
+        m-v2-form-error Please input valid phone number
+
+    o-editable-line-item(
+      label="Password:",
+      editLabel="Change password",
+      [editing]="isEditingPassword$ | async",
+      [loading]="updatePasswordService.isChangingPassword$ | async",
+      (cancelEdit)="cancelEditPassword()",
+      (edit)="editPassword()",
+    )
+      .value-label.password-mask-circle(*ngFor="let mask of updatePasswordService.passwordMaskRange")
+
+      form.form(
+        [formGroup]="updatePasswordService.passwordForm",
+        (ngSubmit)="updatePasswordService.savePassword()"
+      )
+        m-v2-form-field
+          input(mV2Input, type="password", placeholder="Current password", formControlName="oldPassword")
+          m-v2-suffix
+            m-v2-password-toggle-button
+
+        m-v2-form-field
+          input(mV2Input, type="password", placeholder="New password", formControlName="newPassword")
+          m-v2-suffix
+            m-v2-password-toggle-button
+
+        m-v2-form-field
+          input(mV2Input, type="password", placeholder="Repeat password", formControlName="confirmPassword")
+          m-v2-suffix
+            m-v2-password-toggle-button
+
+      .errors-container
+        m-v2-form-error(*ngIf="updatePasswordService.notMatchGuidelines else noMatchError")
+          | {{ updatePasswordService.passwordGuidelines }}
+
+        ng-template(#noMatchError)
+          m-v2-form-error(*ngIf="updatePasswordService.passwordForm.errors?.confirmPasswordMatch")
+            | Could not save, new passwords do not match

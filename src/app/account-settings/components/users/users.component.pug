@@ -1,0 +1,43 @@
+ng-container(*mLet="showActionsColumn$ | async as showActionsColumn")
+  m-portal(*ngIf="showActionsColumn", [slotId]="accountSettingsHeaderPortalSlotId")
+    m-v2-button.o-button-small(
+      icon="add",
+      [color]="MyndButtonColors.Secondary",
+      (click)="openAddUserModal()",
+    ) New User
+
+  o-widget-wrapper(widgetTitle="USERS", *mLet="currentOwnerId$ | async as currentOwnerId")
+    o-scroll-container(*mLet="owners$ | async as owners")
+      m-table(
+        *ngIf="entitiesMap$ | async as entitiesMap",
+        [isFullWidth]="true",
+        [stickyHeader]="true",
+      )
+        m-table-row([isHeader]="true", *mLet="sort$ | async as sort")
+          m-table-column(
+            *ngFor="let column of columns",
+            [isHeader]="true",
+            [isSorted]="sort.key === column.key",
+            [isSortedAsc]="sort.order === MyndOrder.Asc",
+            [class.clickable]="sortableUserColumns.has(column.key)",
+            (click)="sortableUserColumns.has(column.key) && sortOwners(column.key)",
+          ) {{ column.value }}
+          m-table-column(*ngIf="showActionsColumn")
+        m-table-row(*ngFor="let owner of owners; trackBy: trackByOwnerId")
+          m-table-column.bold {{ (owner | mFullName) || owner.email }}
+          m-table-column.light
+            .entity(*ngFor="let entityRole of owner.roles") {{ entitiesMap[entityRole.entityId]?.businessLegalName }}
+          m-table-column.light
+            .role(*ngFor="let entityRole of owner.roles") {{ entityRole.role | mMapValue:humanEntityRole }}
+          m-table-column.bold.light([style.color]="owner.status | mMapValue:ownerStatusColor") {{ owner.status | mMapValue:humanOwnerStatus }}
+          m-table-column(*ngIf="showActionsColumn")
+            m-button(
+              *ngIf="owner | canDeleteOwner | async",
+              color="white",
+              icon="trash-sm",
+              [hasMinWidth]="false",
+              [small]="true",
+              (click)="deleteOwner(owner)",
+            )
+
+      m-throbber(*ngIf="!owners?.length")
